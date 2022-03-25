@@ -18,7 +18,7 @@ or this<br>
 ![](sample_videofolder2.png)
 <br>
 <br>
-Gaps between different screenshares are filled with stillimage_placeholder
+Gaps between different screenshares are filled with stillimage_placeholder.png
 <br><br>
 Example
 <br><br>
