@@ -14,7 +14,7 @@ You can download adobe connect sessions as zip, unpack them and pass the resulti
 Works for streams which look like this unpacked (ftcontent files):<br>
 ![](sample_videofolder1.png)
 <br>
-or this (screenshare files)<br>
+or this (screenshare files):<br>
 ![](sample_videofolder2.png)
 <br>
 <br>
