@@ -35,6 +35,6 @@ ktvideo.create_fullvideo_from_folder(srcfolder,destfilepath)
 
 <br>
 If this does not work for you:<br>
-the general approach is to look at the .flv and .xml files which come in pairs (only those with xml <flag>video data</flag> are relevant).<br>
+the general approach is to look at the .flv and .xml files which come in pairs (only those with xml `<flag>video data</flag>` are relevant).<br>
 You can figure out the correct time for each video by their xml start datetime, and their duration (last <message time='milliseconds'> tag).<br>
 For the audio you can find out the start datetime by looking at mainstream.xml, somewhere in there '.mp3' is referenced.
