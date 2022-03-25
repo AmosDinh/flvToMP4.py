@@ -17,6 +17,20 @@ class KTVIDEO:
     
     def create_fullvideo_from_folder(self,folder,destfilepath):
         
+        print("""
+              \n
+              \n
+              \n
+              \n
+              ______________________________________________
+              
+              converting """+folder+"""
+              ______________________________________________
+              \n
+              \n
+              \n
+              \n
+              """)
         self.clear_tempfolder()
         
         videos_to_be_merged = []
@@ -360,6 +374,7 @@ class KTVIDEO:
             
             if p.suffix == '.xml':
             
+                print(str(p))
                 
                 if file.startswith('ftcontent') or file.startswith('screenshare') or file.startswith('mainstream'):
                 
@@ -400,13 +415,19 @@ class KTVIDEO:
                             for element2 in root.iter():
                                 if element2.tag == "Message" and 'time' in element2.attrib.keys():
                                     last_time_milliseconds = int(element2.attrib['time'])
+                                    
+                            # fix: case mainstream.xml has no date entry (older version? ~ 2010 files)
+                            if not startdt is None:
+                                enddt = startdt + datetime.timedelta(milliseconds=last_time_milliseconds)
+                            else:
+                                enddt = datetime.timedelta(milliseconds=last_time_milliseconds)
                                 
-                            enddt = startdt + datetime.timedelta(milliseconds=last_time_milliseconds)
-                            
                             # if file.startswith('ftcontent'):
                             #     unsorted_videodata.append({'path':p,'start':startdt,'end':enddt,'duration':(enddt-startdt)})
 
                             if file.startswith('main'):
+                                
+                                    
                                 video_audio_data_dict['mainstream'] = [{'path':str(p.resolve()),'startdt':startdt,'enddt':enddt}]
                             
                             elif file.startswith('ftcontent') or file.startswith('screenshare'):
@@ -425,7 +446,29 @@ class KTVIDEO:
         unsorted_videodata.sort(key=lambda x: int(x['startdt'].timestamp()*1000))
         
         video_audio_data_dict['ordered_video'] = unsorted_videodata
-                            
+        print('timedelta',video_audio_data_dict['mainstream'][0]['enddt'])     
+        # fix: case mainstream.xml has no date entry (older version? ~ 2010 files)
+        # get startdate of first.xml,  and enddate of last.xml: map them to the endtime of mainstream
+        # and thereby get date for mainstream
+        # shift mainstream startdate forward so that mp3 and enddate of last.xml align
         
+        if video_audio_data_dict['mainstream'][0]['startdt'] is None:
+            #startdateoffirst = video_audio_data_dict['ordered_video'][0]['startdt']
+            enddateoflast = video_audio_data_dict['ordered_video'][-1]['enddt']
+            
+            # videoduration = enddateoflast-startdateoffirst
+            
+            duration_ofmainstream = video_audio_data_dict['mainstream'][0]['enddt']
+            
+            startdate_mainstream = enddateoflast - duration_ofmainstream
+            
+            
+            #startdt = video_audio_data_dict['ordered_video'][0]['startdt']
+            #startdt -= video_audio_data_dict['audio'][0]['start_timedelta']
+            video_audio_data_dict['mainstream'][0]['startdt'] = startdate_mainstream
+            video_audio_data_dict['mainstream'][0]['enddt'] = enddateoflast
+            
         # print(json.dumps(video_audio_data_dict,indent=4))
+        print(video_audio_data_dict)
+       
         return video_audio_data_dict
