@@ -34,6 +34,15 @@ ktvideo.create_fullvideo_from_folder(srcfolder,destfilepath)
 ```
 
 <br>
+Afterwards you should compress your videos using something like 
+
+```
+ffmpeg source.mp4 -vcodec libx265 -crf 24 dest.mp4
+```
+
+where "24" is the quality, lower better. As It decreases filesize by sometimes 3/4. See the 1_2_compress.py for an example
+<br>
+<br>
 If this does not work for you:<br>
 the general approach is to look at the .flv and .xml files which come in pairs (only those with xml 
 
@@ -45,3 +54,4 @@ are relevant).<br>
 <br>
 You can figure out the correct time for each video by their xml start datetime, and their duration (last <message time='milliseconds'> tag).<br>
 For the audio you can find out the start datetime by looking at mainstream.xml, somewhere in there '.mp3' is referenced.
+<br><br>
