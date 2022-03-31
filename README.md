@@ -43,7 +43,9 @@ ffmpeg source.mp4 -vcodec libx265 -crf 24 dest.mp4
 where "24" is the quality, lower better. As It decreases filesize by sometimes 3/4. See the 1_2_compress.py for an example
 <br>
 <br>
-If this does not work for you:<br>
+<br>
+<br>
+If the python program does not work for you:<br>
 the general approach is to look at the .flv and .xml files which come in pairs (only those with xml 
 
 ```
